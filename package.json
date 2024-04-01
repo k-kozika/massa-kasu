@@ -1,0 +1,27 @@
+{
+  "name": "msms-kasu",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro build && wrangler pages dev ./dist",
+    "astro": "astro",
+    "deploy": "astro build && wrangler pages deploy ./dist",
+    "build-cf-types": "wrangler types"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.5.10",
+    "@astrojs/cloudflare": "^10.0.1",
+    "@astrojs/mdx": "^2.2.2",
+    "@astrojs/rss": "^4.0.5",
+    "@astrojs/sitemap": "^3.1.2",
+    "astro": "^4.5.12",
+    "typescript": "^5.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240329.0",
+    "wrangler": "^3.41.0"
+  }
+}
