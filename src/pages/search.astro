@@ -1,0 +1,98 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { ContentClient } from "../lib/blog";
+import PostCard from "../components/PostCard.astro";
+import { getDescriptionFor } from "../lib/description";
+import FormattedDate from "../components/FormattedDate.astro";
+
+const { env } = Astro.locals.runtime;
+const client = new ContentClient(env.MICROCMS_API_KEY, env.KV);
+const page = parseInt(Astro.url.searchParams.get("page") ?? "0");
+const query = Astro.url.searchParams.get("q");
+
+const prevPage = new URL(Astro.url);
+prevPage.searchParams.set("page", (page - 1).toString());
+const nextPage = new URL(Astro.url);
+nextPage.searchParams.set("page", (page + 1).toString());
+let results: Awaited<ReturnType<ContentClient["searchBlog"]>> | null = null;
+if (!!query) {
+  results = await client.searchBlog(query, page);
+}
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      main {
+        width: 960px;
+      }
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      @media (max-width: 720px) {
+        ul {
+          gap: 0.5em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h2>検索</h2>
+      <form method="get">
+        <label for="search"
+          >検索: <input
+            type="search"
+            name="q"
+            required
+            id="search"
+            placeholder="文字,,, 奥までっ! 入れて...!"
+          /></label
+        >
+        <button type="submit">検索する</button>
+      </form>
+      <hr />
+      {
+        !!results && (
+          <div>
+            <h3>
+              {query} の検索結果
+              {(results.next || results.back) && ` - ${page + 1}ページ目`}
+            </h3>
+            <section>
+              <ul>
+                {results.contents.map((post) => (
+                  <li>
+                    <PostCard
+                      post={post}
+                      description={getDescriptionFor(post.content)}
+                    />
+                  </li>
+                ))}
+              </ul>
+              {results.contents.length === 0 && (
+                <span>(何も見つかりませんでした)</span>
+              )}
+            </section>
+            <div>
+              {results.back && <a href={prevPage}>前ページ</a>}
+              {results.next && <a href={nextPage}>次ページ</a>}
+            </div>
+          </div>
+        )
+      }
+    </main>
+    <Footer />
+  </body>
+</html>

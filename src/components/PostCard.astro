@@ -1,0 +1,69 @@
+---
+import type { ContentClient } from "../lib/blog";
+import FormattedDate from "./FormattedDate.astro";
+
+interface Props {
+  post: Awaited<ReturnType<ContentClient["getPost"]>>;
+  description?: string;
+}
+
+const { post, description } = Astro.props;
+---
+
+<div>
+  <a href={`/blog/${post.id}/`}>
+    {
+      post.eyecatch && (
+        <img width={720} height={360} src={post.eyecatch?.url} alt="" />
+      )
+    }
+    <h4 class="title">{post.title}</h4>
+    {description && <span>{description}</span>}
+    <p class="date">
+      <FormattedDate date={new Date(post.updatedAt)} />
+    </p>
+  </a>
+</div>
+
+<style>
+  div {
+    width: calc(50% - 1rem);
+  }
+  div * {
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+  div img {
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+  }
+  div a {
+    display: block;
+  }
+  .title {
+    margin: 0;
+    color: rgb(var(--black));
+    line-height: 1;
+  }
+  .date {
+    margin: 0;
+    color: rgb(var(--gray));
+  }
+  div span {
+    color: rgb(var(--gray));
+  }
+  div a:hover h4,
+  div a:hover span,
+  div a:hover .date {
+    color: rgb(var(--accent));
+  }
+  div a:hover img {
+    box-shadow: var(--box-shadow);
+  }
+  @media (max-width: 720px) {
+    div {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>

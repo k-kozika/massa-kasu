@@ -1,20 +1,17 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import BlogPost from "../../layouts/BlogPost.astro";
+import { ContentClient } from "../../lib/blog";
 
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.slug },
-		props: post,
-	}));
+const { slug = "" } = Astro.params;
+const { env } = Astro.locals.runtime;
+const client = new ContentClient(env.MICROCMS_API_KEY, env.KV);
+let post: Awaited<ReturnType<ContentClient["getPost"]>>;
+const draftKey = Astro.url.searchParams.get("draftKey");
+if (!!draftKey) {
+  post = await client.getBlogDraft(slug, draftKey);
+} else {
+  post = await client.getPost(slug);
 }
-type Props = CollectionEntry<'blog'>;
-
-const post = Astro.props;
-const { Content } = await post.render();
 ---
 
-<BlogPost {...post.data}>
-	<Content />
-</BlogPost>
+<BlogPost {...post} />
