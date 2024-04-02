@@ -1,0 +1,4 @@
+MICROCMS_API_KEY=xxxxx
+// generate random secret
+// i.e. ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'
+WEBHOOK_SECRET=xxxxx
