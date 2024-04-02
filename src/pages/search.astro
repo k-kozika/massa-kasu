@@ -6,7 +6,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { ContentClient } from "../lib/blog";
 import PostCard from "../components/PostCard.astro";
 import { getDescriptionFor } from "../lib/description";
-import FormattedDate from "../components/FormattedDate.astro";
 
 const { env } = Astro.locals.runtime;
 const client = new ContentClient(env.MICROCMS_API_KEY, env.KV);
