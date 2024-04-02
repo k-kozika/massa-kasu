@@ -48,6 +48,9 @@ export class ContentClient {
     } catch {
       res = await this.client.getAllContents<T>({
         endpoint,
+        queries: {
+          orders: "createdAt",
+        },
       });
       // It may fail due to rate limit issues etc.
       try {
