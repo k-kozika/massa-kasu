@@ -164,8 +164,7 @@ export class ContentClient {
 
     const bodyParsed: Webhook = JSON.parse(rawBody);
 
-    return await kv.delete(
-      `${bodyParsed.api}${bodyParsed.id ? `.${bodyParsed.id}` : ""}`
-    );
+    await kv.delete(`${bodyParsed.api}`);
+    if (bodyParsed.id) await kv.delete(`${bodyParsed.api}$.${bodyParsed.id}`);
   }
 }
