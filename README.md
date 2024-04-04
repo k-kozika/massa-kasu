@@ -1,4 +1,4 @@
-# MSMS-Kasu: Masa's website!
+# Massa-Kasu: Masa's website!
 
 - [x] MircoCMS
 - [x] Astro
