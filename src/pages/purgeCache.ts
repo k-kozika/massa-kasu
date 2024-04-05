@@ -6,7 +6,7 @@ export const POST: APIRoute = async (context) => {
     const { env } = context.locals.runtime;
     const signature = context.request.headers.get("X-MICROCMS-Signature") ?? "";
     const requestText = await context.request.text();
-    ContentClient.webhookDelete(
+    await ContentClient.webhookDelete(
       requestText,
       {
         key: env.WEBHOOK_SECRET,
