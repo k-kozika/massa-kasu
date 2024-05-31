@@ -7,6 +7,8 @@ interface Props {
   description?: string;
 }
 
+const skeletonEyecatch = "https://images.microcms-assets.io/assets/3bd041f74dfd42c897a847871518260a/158769c561ec432b978ca7a04d4a4e49/skeleton.png?format=webp"
+
 const { post, description } = Astro.props;
 ---
 
@@ -14,7 +16,7 @@ const { post, description } = Astro.props;
   <a href={`/blog/${post.id}/`}>
     {
       post.eyecatch && (
-        <img width={720} height={360} src={post.eyecatch?.url} alt="" />
+        <img width={720} height={360} src={post.eyecatch?.url ?? skeletonEyecatch} alt="" />
       )
     }
     <h4 class="title">{post.title}</h4>
