@@ -19,6 +19,10 @@ const settings = {
     title_hover_color: titleHover,
     link_color: linkColor,
 };
+for (const [key, value] of Object.entries(settings)) {
+  url.searchParams.set(key, value);
+}
+
 ---
 
 <div>
