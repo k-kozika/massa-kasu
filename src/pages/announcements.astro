@@ -2,6 +2,7 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import Ads from "../components/Ads.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { ContentClient } from "../lib/blog";
 import FormattedDate from "../components/FormattedDate.astro";
@@ -13,82 +14,85 @@ const announcements = await client.getAllAnnouncements();
 
 <!doctype html>
 <html lang="ja">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <style>
-      main {
-        width: 960px;
-      }
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      ul li {
-        width: calc(50% - 1rem);
-      }
-      ul li * {
-        text-decoration: none;
-        transition: 0.2s ease;
-      }
-      ul li a {
-        display: block;
-      }
-      .title {
-        margin: 0;
-        color: rgb(var(--black));
-        line-height: 1;
-      }
-      .date {
-        margin: 0;
-        color: rgb(var(--gray));
-      }
-      ul li a:hover h4,
-      ul li a:hover .date {
-        color: rgb(var(--accent));
-      }
-      @media (max-width: 720px) {
-        ul {
-          gap: 0.5em;
-        }
-        ul li {
-          width: 100%;
-          text-align: center;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section>
-        <ul>
-          {
-            announcements
-              .filter((announce) => !announce.id.startsWith("_"))
-              .map((announce) => (
-                <li>
-                  <h4 class="title">{announce.title}</h4>
-                  <span>
-                    {announce.category
-                      ? announce.category.name
-                      : "カテゴリなし"}
-                  </span>
-                  <p class="date">
-                    <FormattedDate date={new Date(announce.updatedAt)} />
-                  </p>
-                  <div>
-                    <Fragment set:html={announce.content} />
-                  </div>
-                </li>
-              ))
-          }
-        </ul>
-      </section>
-    </main>
-    <Footer />
-  </body>
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+        <style>
+            main {
+                width: 960px;
+            }
+            ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            ul li {
+                width: calc(50% - 1rem);
+            }
+            ul li * {
+                text-decoration: none;
+                transition: 0.2s ease;
+            }
+            ul li a {
+                display: block;
+            }
+            .title {
+                margin: 0;
+                color: rgb(var(--black));
+                line-height: 1;
+            }
+            .date {
+                margin: 0;
+                color: rgb(var(--gray));
+            }
+            ul li a:hover h4,
+            ul li a:hover .date {
+                color: rgb(var(--accent));
+            }
+            @media (max-width: 720px) {
+                ul {
+                    gap: 0.5em;
+                }
+                ul li {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <Header />
+        <main>
+            <Ads />
+            <section>
+                <ul>
+                    {
+                        announcements
+                            .filter((announce) => !announce.id.startsWith("_"))
+                            .map((announce) => (
+                                <li>
+                                    <h4 class="title">{announce.title}</h4>
+                                    <span>
+                                        {announce.category
+                                            ? announce.category.name
+                                            : "カテゴリなし"}
+                                    </span>
+                                    <p class="date">
+                                        <FormattedDate
+                                            date={new Date(announce.updatedAt)}
+                                        />
+                                    </p>
+                                    <div>
+                                        <Fragment set:html={announce.content} />
+                                    </div>
+                                </li>
+                            ))
+                    }
+                </ul>
+            </section>
+        </main>
+        <Footer />
+    </body>
 </html>

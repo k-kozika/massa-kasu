@@ -2,6 +2,7 @@
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import Ads from "../../components/Ads.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { ContentClient } from "../../lib/blog";
 import PostCard from "../../components/PostCard.astro";
@@ -13,42 +14,43 @@ const posts = await client.getAllPosts();
 
 <!doctype html>
 <html lang="ja">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <style>
-      main {
-        width: 960px;
-      }
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      @media (max-width: 720px) {
-        ul {
-          gap: 0.5em;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section>
-        <ul>
-          {
-            posts.map((post) => (
-              <li>
-                <PostCard post={post} />
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-    </main>
-    <Footer />
-  </body>
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+        <style>
+            main {
+                width: 960px;
+            }
+            ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            @media (max-width: 720px) {
+                ul {
+                    gap: 0.5em;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <Header />
+        <main>
+            <section>
+                <ul>
+                    {
+                        posts.map((post) => (
+                            <li>
+                                <PostCard post={post} />
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+            <Ads />
+        </main>
+        <Footer />
+    </body>
 </html>
