@@ -18,7 +18,7 @@ const topPageContent = (await client.getAnnouncement("_top_page")).content;
     </head>
     <body>
         <Header />
-        <Ads />
+        <Ads bg="f7f9fb" />
         <main set:html={topPageContent} />
         <Footer />
     </body>
